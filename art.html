@@ -3,916 +3,454 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script>
+            try {
+                var t = localStorage.getItem("theme");
+                if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+            } catch (e) {}
+        </script>
         <meta name="theme-color" content="#eff1f5" />
-        <meta
-            name="apple-mobile-web-app-status-bar-style"
-            content="black-translucent"
-        />
 
-        <!-- Favicon -->
-        <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-
-        <!-- Primary Meta Tags -->
-        <title>generative art | matt hounslow</title>
-        <meta name="title" content="generative art | matt hounslow" />
+        <title>generative art — matt hounslow</title>
         <meta
             name="description"
-            content="generative art created with engram - a rust-based generative art system"
+            content="Generative art from engram: dendrite-like graphs drawn from the live message-bus topology of the Acropolis Cardano node."
         />
         <meta name="author" content="Matt Hounslow" />
+        <link rel="canonical" href="https://matthounslow.dev/art.html" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-        <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="generative art | matt hounslow" />
-        <meta
-            property="og:description"
-            content="generative art created with engram - a rust-based generative art system"
-        />
+        <meta property="og:url" content="https://matthounslow.dev/art.html" />
+        <meta property="og:site_name" content="matt hounslow" />
+        <meta property="og:title" content="generative art — matt hounslow" />
+        <meta property="og:description" content="engram: generative art from live cardano node topology" />
+        <meta property="og:image" content="https://matthounslow.dev/og-image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:creator" content="@loregrammer" />
+        <meta name="twitter:image" content="https://matthounslow.dev/og-image.png" />
 
-        <!-- Twitter -->
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta
-            property="twitter:title"
-            content="generative art | matt hounslow"
-        />
-        <meta
-            property="twitter:description"
-            content="generative art created with engram - a rust-based generative art system"
-        />
-        <meta property="twitter:creator" content="@l0whung" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+        <link rel="stylesheet" href="/assets/site.css" />
 
         <style>
-            @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap");
-
-            @font-face {
-                font-family: "iA Writer Quattro";
-                font-style: normal;
-                font-display: swap;
-                font-weight: 400;
-                src:
-                    url(https://cdn.jsdelivr.net/fontsource/fonts/ia-writer-quattro@latest/latin-400-normal.woff2)
-                        format("woff2"),
-                    url(https://cdn.jsdelivr.net/fontsource/fonts/ia-writer-quattro@latest/latin-400-normal.woff)
-                        format("woff");
-            }
-
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            body {
-                font-family:
-                    "iA Writer Quattro",
-                    -apple-system,
-                    "system-ui",
-                    "Segoe UI",
-                    Roboto,
-                    "Helvetica Neue",
-                    Arial,
-                    "Noto Sans",
-                    sans-serif;
-                background-color: #eff1f5;
-                color: #4c4f69;
-                line-height: 1.6;
-                -webkit-font-smoothing: antialiased;
-            }
-
-            .container {
-                max-width: 52rem;
-                margin: 0 auto;
-                padding: 1.5rem;
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-            }
-
-            @media (max-width: 640px) {
-                .container {
-                    padding: 1rem;
-                }
-            }
-
-            header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 2rem;
-                padding-bottom: 0.75rem;
-                border-bottom: 1px solid #ccd0da;
-            }
-
-            @media (max-width: 640px) {
-                header {
-                    margin-bottom: 1.5rem;
-                }
-            }
-
-            .logo {
-                font-size: 1.125rem;
-                color: #4c4f69;
-                text-decoration: none;
-                font-weight: 600;
-                letter-spacing: -0.02em;
-            }
-
-            @media (max-width: 640px) {
-                .logo {
-                    font-size: 1rem;
-                }
-            }
-
-            .logo .prompt {
-                color: #8c8fa1;
-                margin-right: 0.25rem;
-            }
-
-            .menu-container {
-                position: relative;
-            }
-
-            #menu-toggle {
-                display: none;
-            }
-
-            .menu-label {
-                color: #6c6f85;
-                cursor: pointer;
-                padding: 0.5rem 0.75rem;
-                transition: all 0.2s;
-                border-radius: 0;
-                font-size: 0.875rem;
-                border: 1px solid transparent;
-            }
-
-            @media (max-width: 640px) {
-                .menu-label {
-                    padding: 0.375rem 0.5rem;
-                    font-size: 0.8125rem;
-                }
-            }
-
-            .menu-label:hover,
-            #menu-toggle:checked + .menu-label {
-                background-color: transparent;
-                color: #4c4f69;
-                border-color: #acb0be;
-            }
-
-            .menu-dropdown {
-                position: absolute;
-                right: 0;
-                top: 100%;
-                padding-top: 0.5rem;
-                background-color: transparent;
-                border: none;
-                border-radius: 0;
-                box-shadow: none;
-                display: none;
-                z-index: 50;
-                min-width: 140px;
-            }
-
-            .menu-dropdown ul {
-                background-color: #e6e9ef;
-                border: 1px solid #acb0be;
-                list-style: none;
-                padding: 0;
-            }
-
-            #menu-toggle:checked ~ .menu-dropdown,
-            .menu-container:hover .menu-dropdown {
-                display: block;
-            }
-
-            .menu-dropdown a {
-                display: block;
-                padding: 0.5rem 0.75rem;
-                color: #5c5f77;
-                text-decoration: none;
-                text-align: right;
-                transition: all 0.2s;
-                border-radius: 0;
-                font-size: 0.875rem;
-                border-bottom: 1px solid #ccd0da;
-            }
-
-            .menu-dropdown a:last-child {
-                border-bottom: none;
-            }
-
-            .menu-dropdown a:hover {
-                background-color: #ccd0da;
-                color: #4c4f69;
-            }
-
-            main {
-                flex: 1;
-            }
-
-            h1 {
-                font-size: 2rem;
-                margin-bottom: 0.75rem;
-                font-weight: 700;
-                letter-spacing: -0.03em;
-                color: #4c4f69;
-            }
-
-            @media (max-width: 640px) {
-                h1 {
-                    font-size: 1.5rem;
-                }
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-                margin-bottom: 1rem;
-                font-weight: 700;
-                letter-spacing: -0.02em;
-                color: #4c4f69;
-                text-shadow: 0 0 5px rgba(136, 57, 239, 0.15);
-            }
-
-            @media (max-width: 640px) {
-                .section-title {
-                    font-size: 1.25rem;
-                }
-            }
-
-            .section-title .hash {
-                color: #8c8fa1;
-                margin-right: 0.5rem;
-                font-weight: 400;
-            }
-
             .page-intro {
+                padding-top: 3rem;
                 margin-bottom: 2rem;
             }
-
+            .page-intro .path {
+                font-family: var(--font-mono);
+                font-size: 0.8125rem;
+                color: var(--text-3);
+                margin-bottom: 0.4rem;
+            }
+            .page-intro .path .prompt {
+                color: var(--accent);
+                margin-right: 0.4rem;
+            }
+            .page-intro h1 {
+                font-size: clamp(1.875rem, 5vw, 2.5rem);
+                line-height: 1.15;
+                letter-spacing: -0.035em;
+                margin-bottom: 0.75rem;
+            }
             .page-intro p {
-                color: #5c5f77;
-                font-size: 1rem;
-                margin-bottom: 1rem;
-                font-family: "Roboto Mono", monospace;
+                max-width: 38rem;
+                color: var(--text-2);
             }
-
-            .page-intro a {
-                color: #8839ef;
-                text-decoration: none;
-                border-bottom: 1px solid transparent;
-                transition: border-color 0.2s;
-            }
-
-            .page-intro a:hover {
-                border-bottom-color: #8839ef;
+            @media (max-width: 640px) {
+                .page-intro {
+                    padding-top: 2rem;
+                }
             }
 
             .gallery {
                 display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 1.5rem;
+                grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+                gap: 1rem;
                 margin-bottom: 2rem;
+                list-style: none;
             }
-
-            @media (max-width: 640px) {
+            @media (max-width: 480px) {
                 .gallery {
-                    grid-template-columns: 1fr;
-                    gap: 1rem;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 0.6rem;
                 }
             }
 
             .art-item {
-                border: 1px solid #ccd0da;
-                padding: 0.75rem;
-                transition: all 0.2s;
-                background-color: transparent;
-                cursor: pointer;
+                display: block;
+                width: 100%;
+                padding: 0.5rem;
+                background: transparent;
+                border: 1px solid var(--line);
+                color: inherit;
+                font: inherit;
+                cursor: zoom-in;
+                transition: border-color 0.15s, background-color 0.15s;
             }
-
             .art-item:hover {
-                border-color: #acb0be;
-                background-color: #e6e9ef;
+                border-color: var(--accent);
+                background: var(--bg-alt);
             }
-
             .art-item img {
                 width: 100%;
                 height: auto;
-                display: block;
+                aspect-ratio: 1;
+                background: var(--bg-alt);
             }
-
-            .art-item .art-label {
-                margin-top: 0.5rem;
-                font-size: 0.75rem;
-                color: #6c6f85;
-                font-family: "Roboto Mono", monospace;
+            .art-label {
+                display: block;
+                margin-top: 0.4rem;
+                font-family: var(--font-mono);
+                font-size: 0.6875rem;
+                color: var(--text-3);
                 text-align: center;
             }
 
-            /* Pagination */
             .pagination {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                gap: 0.5rem;
-                margin-bottom: 3rem;
+                gap: 0.375rem;
                 flex-wrap: wrap;
             }
-
             .pagination button {
-                background-color: transparent;
-                border: 1px solid #ccd0da;
-                color: #5c5f77;
-                padding: 0.5rem 0.75rem;
-                font-size: 0.875rem;
-                font-family: "Roboto Mono", monospace;
+                min-width: 2.25rem;
+                padding: 0.45rem 0.6rem;
+                background: transparent;
+                border: 1px solid var(--line);
+                color: var(--text-2);
+                font-family: var(--font-mono);
+                font-size: 0.8125rem;
                 cursor: pointer;
-                transition: all 0.2s;
+                transition: border-color 0.15s, background-color 0.15s, color 0.15s;
             }
-
             .pagination button:hover:not(:disabled) {
-                border-color: #acb0be;
-                background-color: #e6e9ef;
-                color: #4c4f69;
+                border-color: var(--line-strong);
+                background: var(--bg-alt);
+                color: var(--text);
             }
-
             .pagination button:disabled {
                 opacity: 0.4;
                 cursor: not-allowed;
             }
-
-            .pagination button.active {
-                background-color: #8839ef;
-                border-color: #8839ef;
-                color: #eff1f5;
+            .pagination button[aria-current="page"] {
+                background: var(--accent);
+                border-color: var(--accent);
+                color: var(--on-accent);
             }
-
+            .pagination .gap {
+                color: var(--muted);
+                padding: 0 0.15rem;
+            }
             .pagination-info {
+                width: 100%;
+                margin-top: 0.5rem;
+                text-align: center;
+                font-family: var(--font-mono);
                 font-size: 0.75rem;
-                color: #6c6f85;
-                font-family: "Roboto Mono", monospace;
-                margin-left: 1rem;
+                color: var(--muted);
             }
 
-            @media (max-width: 640px) {
-                .pagination-info {
-                    width: 100%;
-                    text-align: center;
-                    margin-left: 0;
-                    margin-top: 0.5rem;
-                }
-            }
-
-            /* Lightbox */
+            /* lightbox */
             .lightbox {
                 display: none;
                 position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(220, 224, 232, 0.95);
-                z-index: 1000;
+                inset: 0;
+                z-index: 150;
                 justify-content: center;
                 align-items: center;
                 padding: 2rem;
+                background: color-mix(in srgb, var(--bg-sunk) 94%, transparent);
+                -webkit-backdrop-filter: blur(6px);
+                backdrop-filter: blur(6px);
             }
-
             .lightbox.active {
                 display: flex;
             }
-
-            .lightbox-content {
-                max-width: 90vw;
-                max-height: 90vh;
-                position: relative;
-            }
-
             .lightbox-content img {
-                max-width: 100%;
-                max-height: 85vh;
-                display: block;
-                border: 1px solid #acb0be;
+                max-width: min(85vw, 85vh);
+                max-height: 80vh;
+                border: 1px solid var(--line-strong);
             }
-
             .lightbox-label {
+                margin-top: 0.75rem;
                 text-align: center;
-                margin-top: 1rem;
-                font-size: 0.875rem;
-                color: #5c5f77;
-                font-family: "Roboto Mono", monospace;
+                font-family: var(--font-mono);
+                font-size: 0.8125rem;
+                color: var(--text-2);
             }
-
-            .lightbox-close {
+            .lightbox button {
                 position: absolute;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 2.75rem;
+                height: 2.75rem;
+                background: var(--bg);
+                border: 1px solid var(--line-strong);
+                color: var(--text-2);
+                font-family: var(--font-mono);
+                font-size: 1.125rem;
+                cursor: pointer;
+                transition: color 0.15s, border-color 0.15s;
+            }
+            .lightbox button:hover {
+                color: var(--text);
+                border-color: var(--accent);
+            }
+            .lightbox-close {
                 top: 1rem;
                 right: 1rem;
-                font-size: 2rem;
-                color: #5c5f77;
-                cursor: pointer;
-                background: none;
-                border: none;
-                padding: 0.5rem;
-                line-height: 1;
-                transition: color 0.2s;
             }
-
-            .lightbox-close:hover {
-                color: #4c4f69;
-            }
-
-            .lightbox-nav {
-                position: absolute;
+            .lightbox-prev,
+            .lightbox-next {
                 top: 50%;
                 transform: translateY(-50%);
-                font-size: 2rem;
-                color: #5c5f77;
-                cursor: pointer;
-                background: none;
-                border: none;
-                padding: 1rem;
-                transition: color 0.2s;
             }
-
-            .lightbox-nav:hover {
-                color: #4c4f69;
-            }
-
             .lightbox-prev {
                 left: 1rem;
             }
-
             .lightbox-next {
                 right: 1rem;
             }
-
-            footer {
-                padding-top: 3rem;
-                margin-top: 1rem;
-                border-top: 1px solid #ccd0da;
-                display: flex;
-                justify-content: space-between;
-                opacity: 0.6;
-            }
-
             @media (max-width: 640px) {
-                footer {
-                    padding-top: 2rem;
-                    flex-direction: column;
-                    gap: 0.5rem;
-                    text-align: center;
+                .lightbox-prev,
+                .lightbox-next {
+                    top: auto;
+                    bottom: 1.25rem;
+                    transform: none;
                 }
-            }
-
-            footer p {
-                color: #6c6f85;
-                font-size: 0.8125rem;
-            }
-
-            .prompt {
-                color: #8c8fa1;
+                .lightbox-prev {
+                    left: calc(50% - 3.25rem);
+                }
+                .lightbox-next {
+                    right: calc(50% - 3.25rem);
+                }
             }
         </style>
     </head>
     <body>
-        <div class="container">
-            <header>
-                <a href="/" class="logo">
-                    <span class="prompt">~</span>matt hounslow
-                </a>
-                <div class="menu-container">
-                    <input type="checkbox" id="menu-toggle" />
-                    <label for="menu-toggle" class="menu-label">menu</label>
-                    <div class="menu-dropdown">
-                        <ul>
-                            <li><a href="/">home</a></li>
-                            <li><a href="art.html">art</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </header>
+        <a class="skip-link" href="#main">skip to content</a>
 
-            <main>
-                <section class="page-intro">
-                    <h1 class="section-title">
-                        <span class="hash">#</span> generative art
-                    </h1>
-                    <p>
-                        visualizations generated with
-                        <a
-                            href="https://github.com/lowhung/engram"
-                            target="_blank"
-                            >engram</a
-                        >, which captures live metrics from
-                        <a
-                            href="https://github.com/lowhung/neuronic"
-                            target="_blank"
-                            >neuronic</a
-                        >
-                        and renders module connections from the
-                        <a
-                            href="https://github.com/input-output-hk/acropolis"
-                            target="_blank"
-                            >acropolis</a
-                        >
-                        cardano node as dendrite-like graphs. each piece
-                        reflects real message bus topology using the catppuccin
-                        color palette.
-                    </p>
-                </section>
-
-                <div class="gallery" id="gallery"></div>
-
-                <div class="pagination" id="pagination"></div>
-            </main>
-
-            <footer>
-                <p><span class="prompt">$</span> echo "thanks for visiting"</p>
-                <p>
-                    <a href="art.html" style="color: #6c6f85"
-                        >&larr; back to gallery</a
-                    >
-                </p>
-            </footer>
-        </div>
-
-        <!-- Lightbox -->
-        <div class="lightbox" id="lightbox">
-            <button class="lightbox-close" onclick="closeLightbox()">
-                &times;
-            </button>
-            <button class="lightbox-nav lightbox-prev" onclick="navigate(-1)">
-                &larr;
-            </button>
-            <div class="lightbox-content">
-                <img id="lightbox-img" src="" alt="" />
-                <p class="lightbox-label" id="lightbox-label"></p>
+        <header class="site-header">
+            <div class="wrap">
+                <a href="/" class="logo"><span class="prompt">~</span>matt hounslow</a>
+                <nav class="site-nav" aria-label="primary">
+                    <ul>
+                        <li><a href="/#projects">projects</a></li>
+                        <li><a href="/#opensource">open source</a></li>
+                        <li><a href="/#work">work</a></li>
+                        <li><a href="/art.html" aria-current="page">art</a></li>
+                        <li><a href="/resume.pdf" download="matthew-hounslow-resume.pdf">resume</a></li>
+                    </ul>
+                </nav>
+                <button class="theme-toggle" type="button" data-theme-toggle aria-label="toggle theme">
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
+                </button>
             </div>
-            <button class="lightbox-nav lightbox-next" onclick="navigate(1)">
-                &rarr;
-            </button>
+        </header>
+
+        <main id="main" class="wrap">
+            <section class="page-intro">
+                <p class="path"><span class="prompt">$</span>ls ~/art</p>
+                <h1>generative art</h1>
+                <p>
+                    made with
+                    <a class="text-link" href="https://github.com/mhounslow/engram" target="_blank" rel="noopener">engram</a>,
+                    which captures live metrics from
+                    <a class="text-link" href="https://github.com/mhounslow/neuronic" target="_blank" rel="noopener">neuronic</a>
+                    and draws the module connections of the
+                    <a class="text-link" href="https://github.com/input-output-hk/acropolis" target="_blank" rel="noopener">acropolis</a>
+                    cardano node as dendrite-like graphs. every piece is real
+                    message-bus topology, coloured with the catppuccin palette.
+                </p>
+            </section>
+
+            <ul class="gallery" id="gallery"></ul>
+            <nav class="pagination" id="pagination" aria-label="gallery pages"></nav>
+        </main>
+
+        <footer class="site-footer">
+            <div class="wrap">
+                <span><span class="prompt">$</span> echo "thanks for visiting"</span>
+                <span><a href="/">← home</a></span>
+            </div>
+        </footer>
+
+        <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="artwork viewer">
+            <button class="lightbox-close" type="button" data-action="close" aria-label="close">×</button>
+            <button class="lightbox-prev" type="button" data-action="prev" aria-label="previous">←</button>
+            <figure class="lightbox-content">
+                <img id="lightbox-img" src="" alt="" />
+                <figcaption class="lightbox-label" id="lightbox-label"></figcaption>
+            </figure>
+            <button class="lightbox-next" type="button" data-action="next" aria-label="next">→</button>
         </div>
 
+        <script src="/assets/engrams.js"></script>
+        <script src="/assets/site.js"></script>
         <script>
-            const images = [
-                "engram_0_1766875273363.svg",
-                "engram_1.svg",
-                "engram_1_1766875282411.svg",
-                "engram_2.svg",
-                "engram_2_1766875291458.svg",
-                "engram_3_1766875300502.svg",
-                "engram_4_1766875309552.svg",
-                "engram_5_1766875318597.svg",
-                "engram_6_1766875327644.svg",
-                "engram_7_1766875336688.svg",
-                "engram_8.svg",
-                "engram_8_1766875345734.svg",
-                "engram_9_1766875354778.svg",
-                "engram_10_1766875363825.svg",
-                "engram_11.svg",
-                "engram_11_1766875372869.svg",
-                "engram_12_1766875381916.svg",
-                "engram_13_1766875390963.svg",
-                "engram_14_1766875400011.svg",
-                "engram_15_1766875409060.svg",
-                "engram_16_1766875418112.svg",
-                "engram_17_1766875427168.svg",
-                "engram_18_1766875436214.svg",
-                "engram_19_1766875445259.svg",
-                "engram_20_1766875454302.svg",
-                "engram_21_1766875463347.svg",
-                "engram_22_1766875472392.svg",
-                "engram_23_1766875481434.svg",
-                "engram_24_1766875490477.svg",
-                "engram_25_1766875499523.svg",
-                "engram_26_1766875508572.svg",
-                "engram_27_1766875517617.svg",
-                "engram_28_1766875526662.svg",
-                "engram_29_1766875535706.svg",
-                "engram_30_1766875544754.svg",
-                "engram_31_1766875553798.svg",
-                "engram_32_1766875562851.svg",
-                "engram_33_1766875571896.svg",
-                "engram_34_1766875580941.svg",
-                "engram_35_1766875589987.svg",
-                "engram_36_1766875599030.svg",
-                "engram_37_1766875608076.svg",
-                "engram_38_1766875617120.svg",
-                "engram_39_1766875626165.svg",
-                "engram_40_1766875635210.svg",
-                "engram_41_1766875644255.svg",
-                "engram_42.svg",
-                "engram_42_1766875653297.svg",
-                "engram_43_1766875662342.svg",
-                "engram_44_1766875671386.svg",
-                "engram_45_1766875680429.svg",
-                "engram_46_1766875689473.svg",
-                "engram_47_1766875698519.svg",
-                "engram_48_1766875707564.svg",
-                "engram_49_1766875716606.svg",
-                "engram_50_1766875725654.svg",
-                "engram_51_1766875734700.svg",
-                "engram_52_1766875743746.svg",
-                "engram_53_1766875752794.svg",
-                "engram_54_1766875761837.svg",
-                "engram_55_1766875770880.svg",
-                "engram_56_1766875779924.svg",
-                "engram_57_1766875788967.svg",
-                "engram_58_1766875798011.svg",
-                "engram_59_1766875807054.svg",
-                "engram_60_1766875816099.svg",
-                "engram_61_1766875825143.svg",
-                "engram_62_1766875834185.svg",
-                "engram_63_1766875843227.svg",
-                "engram_64_1766875852269.svg",
-                "engram_65_1766875861315.svg",
-                "engram_66_1766875870360.svg",
-                "engram_67_1766875879403.svg",
-                "engram_68_1766875888447.svg",
-                "engram_69_1766875897500.svg",
-                "engram_70_1766875906542.svg",
-                "engram_71_1766875915586.svg",
-                "engram_72_1766875924633.svg",
-                "engram_73_1766875933676.svg",
-                "engram_74_1766875942721.svg",
-                "engram_75_1766875951766.svg",
-                "engram_76_1766875960813.svg",
-                "engram_77_1766875969858.svg",
-                "engram_78_1766875978904.svg",
-                "engram_79_1766875987948.svg",
-                "engram_80_1766875996991.svg",
-                "engram_81_1766876006036.svg",
-                "engram_82_1766876015080.svg",
-                "engram_83_1766876024122.svg",
-                "engram_84_1766876033167.svg",
-                "engram_85_1766876042212.svg",
-                "engram_86_1766876051256.svg",
-                "engram_87_1766876060304.svg",
-                "engram_88_1766876069352.svg",
-                "engram_89_1766876078396.svg",
-                "engram_90_1766876087449.svg",
-                "engram_91_1766876096492.svg",
-                "engram_92_1766876105536.svg",
-                "engram_93_1766876114579.svg",
-                "engram_94_1766876123622.svg",
-                "engram_95_1766876132665.svg",
-                "engram_96_1766876141710.svg",
-                "engram_97_1766876150754.svg",
-                "engram_98_1766876159797.svg",
-                "engram_99_1766876168844.svg",
-                "engram_100_1766876177890.svg",
-                "engram_101_1766876186934.svg",
-                "engram_102_1766876195982.svg",
-                "engram_103_1766876205025.svg",
-                "engram_104_1766876214072.svg",
-                "engram_105_1766876223116.svg",
-                "engram_106_1766876232162.svg",
-                "engram_107_1766876241204.svg",
-                "engram_108_1766876250247.svg",
-                "engram_109_1766876259288.svg",
-                "engram_110_1766876268333.svg",
-                "engram_111_1766876277376.svg",
-                "engram_112_1766876286422.svg",
-                "engram_113_1766876295466.svg",
-                "engram_114_1766876304512.svg",
-                "engram_115_1766876313555.svg",
-                "engram_116_1766876322603.svg",
-                "engram_117_1766876331654.svg",
-                "engram_118_1766876340701.svg",
-                "engram_119_1766876349747.svg",
-                "engram_120_1766876358792.svg",
-                "engram_121_1766876367839.svg",
-                "engram_122_1766876376881.svg",
-                "engram_123_1766876385927.svg",
-                "engram_124_1766876394993.svg",
-                "engram_125_1766876404032.svg",
-                "engram_126_1766876413077.svg",
-                "engram_127_1766876422121.svg",
-                "engram_128_1766876431167.svg",
-                "engram_129_1766876440211.svg",
-                "engram_130_1766876449258.svg",
-                "engram_131_1766876602944.svg",
-                "engram_132_1766876611989.svg",
-                "engram_133_1766876621035.svg",
-                "engram_134_1766876630078.svg",
-                "engram_135_1766876639124.svg",
-                "engram_136_1766876651846.svg",
-                "engram_137_1766876660900.svg",
-                "engram_138_1766876669982.svg",
-                "engram_139_1766876679059.svg",
-                "engram_140_1766876688135.svg",
-                "engram_141_1766877673568.svg",
-                "engram_142_1766877682612.svg",
-                "engram_143_1766877691655.svg",
-                "engram_144_1766877700698.svg",
-                "engram_145_1766877709740.svg",
-                "engram_146_1766877718782.svg",
-                "engram_147_1766878147983.svg",
-                "engram_148_1766878157028.svg",
-                "engram_149_1766878166071.svg",
-                "engram_150_1766878175115.svg",
-                "engram_151_1766878184156.svg",
-                "engram_152_1766878193273.svg",
-                "engram_153_1766878202318.svg",
-                "engram_154_1766878211361.svg",
-                "engram_155_1766878220404.svg",
-                "engram_156_1766878229448.svg",
-                "engram_157_1766878238492.svg",
-                "engram_158_1766879181133.svg",
-                "engram_159_1766879190174.svg",
-                "engram_160_1766879199215.svg",
-                "engram_161_1766879208258.svg",
-                "engram_162_1766879217303.svg",
-                "engram_163_1766880186752.svg",
-                "engram_164_1766880195794.svg",
-                "engram_165_1766880204840.svg",
-                "engram_166_1766880213883.svg",
-                "engram_167_1766880222927.svg",
-                "engram_168_1766880231969.svg",
-                "engram_169_1766880241016.svg",
-                "engram_170_1766880257911.svg",
-                "engram_171_1766880266959.svg",
-                "engram_172_1766880276001.svg",
-                "engram_173_1766880285044.svg",
-                "engram_174_1766880294088.svg",
-                "engram_175_1766880303131.svg",
-                "engram_176_1766880598246.svg",
-                "engram_177_1766880607289.svg",
-                "engram_178_1766880616334.svg",
-                "engram_179_1766880625378.svg",
-                "engram_180_1766880634421.svg",
-                "engram_181_1766880643462.svg",
-                "engram_182_1766880652507.svg",
-                "engram_183_1766880661549.svg",
-                "engram_184_1766880670593.svg",
-                "engram_185_1766880679635.svg",
-                "engram_186_1766880688678.svg",
-                "engram_187_1766880697722.svg",
-                "engram_188_1766880706768.svg",
-                "engram_189_1766880715814.svg",
-                "engram_190_1766880724861.svg",
-                "engram_191_1766880733903.svg",
-                "engram_192_1766880742947.svg",
-                "engram_193_1766880751994.svg",
-                "engram_194_1766880761037.svg",
-                "engram_195_1766880770084.svg",
-                "engram_196_1766880779128.svg",
-                "engram_197_1766880788174.svg",
-                "engram_198_1766880797219.svg",
-                "engram_199_1766880806264.svg",
-                "engram_200_1766880815307.svg",
-                "engram_201_1766880824352.svg",
-                "engram_202_1766880833398.svg",
-                "engram_203_1766880842441.svg",
-                "engram_204_1766880851484.svg",
-                "engram_205_1766880860529.svg",
-                "engram_206_1766880869578.svg",
-                "engram_207_1766880878622.svg",
-                "engram_208_1766880887668.svg",
-                "engram_209_1766880896714.svg",
-                "engram_210_1766880905762.svg",
-                "engram_211_1766880914805.svg",
-                "engram_212_1766880923849.svg",
-                "engram_213_1766880932897.svg",
-                "engram_214_1766880941943.svg",
-                "engram_215_1766880950988.svg",
-                "engram_216_1766880960036.svg",
-                "engram_217_1766880969079.svg",
-                "engram_218_1766880978123.svg",
-                "engram_219_1766880987167.svg",
-                "engram_220_1766880996210.svg",
-                "engram_221_1766881005257.svg",
-                "engram_222_1766881014301.svg",
-            ];
+            (function () {
+                var images = window.ENGRAMS || [];
+                var PER_PAGE = 12;
+                var totalPages = Math.max(1, Math.ceil(images.length / PER_PAGE));
+                var currentPage = 1;
+                var currentIndex = 0;
+                var lastFocus = null;
 
-            const ITEMS_PER_PAGE = 12;
-            let currentPage = 1;
-            let currentLightboxIndex = 0;
+                var gallery = document.getElementById("gallery");
+                var pagination = document.getElementById("pagination");
+                var lightbox = document.getElementById("lightbox");
+                var lightboxImg = document.getElementById("lightbox-img");
+                var lightboxLabel = document.getElementById("lightbox-label");
 
-            function getSeedFromFilename(filename) {
-                const match = filename.match(/engram_(\d+)/);
-                return match ? match[1] : "0";
-            }
-
-            function renderGallery() {
-                const gallery = document.getElementById("gallery");
-                const start = (currentPage - 1) * ITEMS_PER_PAGE;
-                const end = start + ITEMS_PER_PAGE;
-                const pageImages = images.slice(start, end);
-
-                gallery.innerHTML = pageImages
-                    .map((img, idx) => {
-                        const globalIdx = start + idx;
-                        const seed = getSeedFromFilename(img);
-                        return `
-                        <div class="art-item" onclick="openLightbox(${globalIdx})">
-                            <img src="art/${img}" alt="engram #${seed}" loading="lazy" />
-                            <p class="art-label">seed: ${seed}</p>
-                        </div>
-                    `;
-                    })
-                    .join("");
-            }
-
-            function renderPagination() {
-                const pagination = document.getElementById("pagination");
-                const totalPages = Math.ceil(images.length / ITEMS_PER_PAGE);
-
-                let html = "";
-
-                html += `<button onclick="goToPage(1)" ${currentPage === 1 ? "disabled" : ""}>&laquo;</button>`;
-                html += `<button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? "disabled" : ""}>&lsaquo;</button>`;
-
-                const startPage = Math.max(1, currentPage - 2);
-                const endPage = Math.min(totalPages, currentPage + 2);
-
-                if (startPage > 1) {
-                    html += `<button onclick="goToPage(1)">1</button>`;
-                    if (startPage > 2)
-                        html += `<span style="color: #6c6f85; padding: 0 0.25rem;">...</span>`;
+                function seedOf(file) {
+                    var m = file.match(/engram_(\d+)/);
+                    return m ? m[1] : "0";
                 }
 
-                for (let i = startPage; i <= endPage; i++) {
-                    html += `<button onclick="goToPage(${i})" class="${i === currentPage ? "active" : ""}">${i}</button>`;
+                function pageFromHash() {
+                    var m = location.hash.match(/^#page-(\d+)$/);
+                    var n = m ? parseInt(m[1], 10) : 1;
+                    return Math.min(Math.max(n, 1), totalPages);
                 }
 
-                if (endPage < totalPages) {
-                    if (endPage < totalPages - 1)
-                        html += `<span style="color: #6c6f85; padding: 0 0.25rem;">...</span>`;
-                    html += `<button onclick="goToPage(${totalPages})">${totalPages}</button>`;
+                function renderGallery() {
+                    var start = (currentPage - 1) * PER_PAGE;
+                    gallery.innerHTML = images
+                        .slice(start, start + PER_PAGE)
+                        .map(function (file, i) {
+                            var seed = seedOf(file);
+                            return (
+                                '<li><button class="art-item" type="button" data-index="' + (start + i) + '" aria-label="view engram ' + seed + '">' +
+                                '<img src="/art/' + file + '" alt="" loading="lazy" width="200" height="200" />' +
+                                '<span class="art-label">seed: ' + seed + "</span></button></li>"
+                            );
+                        })
+                        .join("");
                 }
 
-                html += `<button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? "disabled" : ""}>&rsaquo;</button>`;
-                html += `<button onclick="goToPage(${totalPages})" ${currentPage === totalPages ? "disabled" : ""}>&raquo;</button>`;
+                function pageButton(page, label, opts) {
+                    opts = opts || {};
+                    return (
+                        '<button type="button" data-page="' + page + '"' +
+                        (opts.disabled ? " disabled" : "") +
+                        (opts.current ? ' aria-current="page"' : "") +
+                        (opts.aria ? ' aria-label="' + opts.aria + '"' : "") +
+                        ">" + label + "</button>"
+                    );
+                }
 
-                const start = (currentPage - 1) * ITEMS_PER_PAGE + 1;
-                const end = Math.min(
-                    currentPage * ITEMS_PER_PAGE,
-                    images.length,
-                );
-                html += `<span class="pagination-info">${start}-${end} of ${images.length}</span>`;
+                function renderPagination() {
+                    var html = pageButton(currentPage - 1, "‹", { disabled: currentPage === 1, aria: "previous page" });
+                    var from = Math.max(1, currentPage - 2);
+                    var to = Math.min(totalPages, currentPage + 2);
+                    if (from > 1) {
+                        html += pageButton(1, "1");
+                        if (from > 2) html += '<span class="gap">…</span>';
+                    }
+                    for (var p = from; p <= to; p++) html += pageButton(p, p, { current: p === currentPage });
+                    if (to < totalPages) {
+                        if (to < totalPages - 1) html += '<span class="gap">…</span>';
+                        html += pageButton(totalPages, totalPages);
+                    }
+                    html += pageButton(currentPage + 1, "›", { disabled: currentPage === totalPages, aria: "next page" });
+                    var first = (currentPage - 1) * PER_PAGE + 1;
+                    var last = Math.min(currentPage * PER_PAGE, images.length);
+                    html += '<p class="pagination-info">' + first + "–" + last + " of " + images.length + "</p>";
+                    pagination.innerHTML = html;
+                }
 
-                pagination.innerHTML = html;
-            }
+                function goToPage(page, scroll) {
+                    if (page < 1 || page > totalPages) return;
+                    currentPage = page;
+                    renderGallery();
+                    renderPagination();
+                    history.replaceState(null, "", page === 1 ? location.pathname : "#page-" + page);
+                    if (scroll) document.getElementById("main").scrollIntoView({ behavior: "smooth" });
+                }
 
-            function goToPage(page) {
-                const totalPages = Math.ceil(images.length / ITEMS_PER_PAGE);
-                if (page < 1 || page > totalPages) return;
-                currentPage = page;
+                function updateLightbox() {
+                    var file = images[currentIndex];
+                    var seed = seedOf(file);
+                    lightboxImg.src = "/art/" + file;
+                    lightboxImg.alt = "engram, seed " + seed;
+                    lightboxLabel.textContent = "seed: " + seed + "  (" + (currentIndex + 1) + " of " + images.length + ")";
+                }
+
+                function openLightbox(index) {
+                    lastFocus = document.activeElement;
+                    currentIndex = index;
+                    updateLightbox();
+                    lightbox.classList.add("active");
+                    document.body.style.overflow = "hidden";
+                    lightbox.querySelector(".lightbox-close").focus();
+                }
+
+                function closeLightbox() {
+                    lightbox.classList.remove("active");
+                    document.body.style.overflow = "";
+                    // keep the grid in sync with wherever the viewer ended up
+                    var page = Math.floor(currentIndex / PER_PAGE) + 1;
+                    if (page !== currentPage) goToPage(page, false);
+                    var target = gallery.querySelector('[data-index="' + currentIndex + '"]') || lastFocus;
+                    if (target) target.focus();
+                }
+
+                function step(dir) {
+                    currentIndex = (currentIndex + dir + images.length) % images.length;
+                    updateLightbox();
+                }
+
+                gallery.addEventListener("click", function (e) {
+                    var item = e.target.closest(".art-item");
+                    if (item) openLightbox(parseInt(item.dataset.index, 10));
+                });
+
+                pagination.addEventListener("click", function (e) {
+                    var btn = e.target.closest("button[data-page]");
+                    if (btn && !btn.disabled) goToPage(parseInt(btn.dataset.page, 10), true);
+                });
+
+                lightbox.addEventListener("click", function (e) {
+                    var action = e.target.closest("[data-action]");
+                    if (action) {
+                        var a = action.dataset.action;
+                        if (a === "close") closeLightbox();
+                        if (a === "prev") step(-1);
+                        if (a === "next") step(1);
+                    } else if (e.target === lightbox) {
+                        closeLightbox();
+                    }
+                });
+
+                document.addEventListener("keydown", function (e) {
+                    if (!lightbox.classList.contains("active")) return;
+                    if (e.key === "Escape") closeLightbox();
+                    if (e.key === "ArrowLeft") step(-1);
+                    if (e.key === "ArrowRight") step(1);
+                    if (e.key === "Tab") {
+                        // keep focus inside the dialog
+                        var buttons = lightbox.querySelectorAll("button");
+                        var first = buttons[0];
+                        var last = buttons[buttons.length - 1];
+                        if (e.shiftKey && document.activeElement === first) {
+                            e.preventDefault();
+                            last.focus();
+                        } else if (!e.shiftKey && document.activeElement === last) {
+                            e.preventDefault();
+                            first.focus();
+                        }
+                    }
+                });
+
+                currentPage = pageFromHash();
                 renderGallery();
                 renderPagination();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-            }
-
-            // Lightbox functions
-            const lightbox = document.getElementById("lightbox");
-            const lightboxImg = document.getElementById("lightbox-img");
-            const lightboxLabel = document.getElementById("lightbox-label");
-
-            function openLightbox(index) {
-                currentLightboxIndex = index;
-                updateLightbox();
-                lightbox.classList.add("active");
-                document.body.style.overflow = "hidden";
-            }
-
-            function closeLightbox() {
-                lightbox.classList.remove("active");
-                document.body.style.overflow = "";
-            }
-
-            function updateLightbox() {
-                const img = images[currentLightboxIndex];
-                const seed = getSeedFromFilename(img);
-                lightboxImg.src = `art/${img}`;
-                lightboxImg.alt = `engram #${seed}`;
-                lightboxLabel.textContent = `seed: ${seed} (${currentLightboxIndex + 1} of ${images.length})`;
-            }
-
-            function navigate(direction) {
-                currentLightboxIndex += direction;
-                if (currentLightboxIndex < 0)
-                    currentLightboxIndex = images.length - 1;
-                if (currentLightboxIndex >= images.length)
-                    currentLightboxIndex = 0;
-                updateLightbox();
-            }
-
-            // Event listeners
-            lightbox.addEventListener("click", (e) => {
-                if (e.target === lightbox) closeLightbox();
-            });
-
-            document.addEventListener("keydown", (e) => {
-                if (!lightbox.classList.contains("active")) return;
-                if (e.key === "Escape") closeLightbox();
-                if (e.key === "ArrowLeft") navigate(-1);
-                if (e.key === "ArrowRight") navigate(1);
-            });
-
-            // Initialize
-            renderGallery();
-            renderPagination();
+            })();
         </script>
     </body>
 </html>
