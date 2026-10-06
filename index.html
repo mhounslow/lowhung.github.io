@@ -212,49 +212,6 @@
                 }
             }
 
-            /* ---------- numbers ---------- */
-            .stats {
-                display: grid;
-                grid-template-columns: repeat(4, 1fr);
-                border: 1px solid var(--line);
-            }
-            .stat {
-                padding: 1rem 1rem 1.05rem;
-                border-right: 1px solid var(--line);
-            }
-            .stat:last-child {
-                border-right: 0;
-            }
-            .stat .num {
-                display: block;
-                font-family: var(--font-mono);
-                font-size: 1.5rem;
-                line-height: 1.2;
-                letter-spacing: -0.02em;
-                color: var(--text);
-                margin-bottom: 0.35rem;
-            }
-            .stat .num small {
-                font-size: 0.8125rem;
-                color: var(--text-3);
-                margin-left: 0.15rem;
-            }
-            .stat p {
-                font-size: 0.8125rem;
-                line-height: 1.45;
-                color: var(--text-3);
-            }
-            @media (max-width: 720px) {
-                .stats {
-                    grid-template-columns: 1fr 1fr;
-                }
-                .stat:nth-child(2) {
-                    border-right: 0;
-                }
-                .stat:nth-child(-n + 2) {
-                    border-bottom: 1px solid var(--line);
-                }
-            }
 
             /* ---------- project cards ---------- */
             .cards {
@@ -333,8 +290,19 @@
                 color: var(--text-2);
                 line-height: 1.55;
             }
-            .card .tags {
+            .card .tags,
+            .card .meta a {
                 position: relative;
+                z-index: 1;
+            }
+            .card .meta a {
+                color: var(--text-2);
+                text-decoration: none;
+                border-bottom: 1px dotted var(--line-strong);
+            }
+            .card .meta a:hover {
+                color: var(--card-accent, var(--accent));
+                border-bottom-color: currentColor;
             }
             .accent-pink {
                 --card-accent: var(--pink);
@@ -504,7 +472,7 @@
                         <li><a href="#opensource">open source</a></li>
                         <li><a href="#work">work</a></li>
                         <li><a href="/art.html">art</a></li>
-                        <li><a href="/resume.pdf" download="matthew-hounslow-resume.pdf">resume</a></li>
+                        <li><a href="/resume.pdf" target="_blank" rel="noopener">resume</a></li>
                     </ul>
                 </nav>
                 <button class="theme-toggle" type="button" data-theme-toggle aria-label="toggle theme">
@@ -532,11 +500,11 @@
                         midnight's smart-contract language.
                     </p>
                     <div class="hero-actions">
-                        <a class="btn primary" href="/resume.pdf" download="matthew-hounslow-resume.pdf">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14" /></svg>
-                            resume.pdf
+                        <a class="btn primary" href="/resume.pdf" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5M9 13h6M9 17h6" /></svg>
+                            resume
                         </a>
-                        <a class="btn" href="mailto:hounslowmatthew@gmail.com">
+                        <a class="btn" href="mailto:hounslow@algalonlabs.com">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1" /><path d="m3 7 9 6 9-6" /></svg>
                             say hi
                         </a>
@@ -565,28 +533,6 @@
                 </div>
             </section>
 
-            <section class="section" aria-labelledby="numbers-title">
-                <h2 class="section-title" id="numbers-title"><span class="hash">#</span>by the numbers</h2>
-                <div class="stats">
-                    <div class="stat">
-                        <span class="num">25<small>×</small></span>
-                        <p>faster critical query in the acropolis–midnight node integration</p>
-                    </div>
-                    <div class="stat">
-                        <span class="num">700→100<small>gb</small></span>
-                        <p>projected node storage after moving to acropolis components</p>
-                    </div>
-                    <div class="stat">
-                        <span class="num">~15<small>min</small></span>
-                        <p>snapshot bootstrap, replacing hours of full-chain replay</p>
-                    </div>
-                    <div class="stat">
-                        <span class="num">150<small>hrs/mo</small></span>
-                        <p>analyst time saved by automating solar fault classification</p>
-                    </div>
-                </div>
-            </section>
-
             <section class="section" id="projects" aria-labelledby="projects-title">
                 <h2 class="section-title" id="projects-title"><span class="hash">#</span>projects</h2>
                 <div class="cards">
@@ -595,7 +541,7 @@
                             <h3><a href="https://github.com/input-output-hk/acropolis" target="_blank" rel="noopener">acropolis node<span class="arrow" aria-hidden="true">↗</span></a></h3>
                             <div class="tags"><span class="tag">rust</span><span class="tag">cardano</span><span class="tag">grpc</span></div>
                         </div>
-                        <p class="meta"><span class="dot" aria-hidden="true"></span>sundae labs × input output (iohk)</p>
+                        <p class="meta"><span class="dot" aria-hidden="true"></span><a href="https://sundae.fi/" target="_blank" rel="noopener">sundae labs</a> × <a href="https://www.iog.io/" target="_blank" rel="noopener">input output (iohk)</a></p>
                         <p class="desc">
                             core ledger-state and indexing modules for a modular
                             cardano node — multi-era rewards and delegation
@@ -608,10 +554,10 @@
 
                     <article class="card accent-mauve">
                         <div class="card-head">
-                            <h3><a href="https://www.shielded.io/" target="_blank" rel="noopener">compact language<span class="arrow" aria-hidden="true">↗</span></a></h3>
+                            <h3><a href="https://github.com/LFDT-Minokawa/compact" target="_blank" rel="noopener">compact language<span class="arrow" aria-hidden="true">↗</span></a></h3>
                             <div class="tags"><span class="tag">typescript</span><span class="tag">rust</span><span class="tag">zero knowledge</span></div>
                         </div>
-                        <p class="meta"><span class="dot" aria-hidden="true"></span>sundae labs × shielded technologies</p>
+                        <p class="meta"><span class="dot" aria-hidden="true"></span><a href="https://sundae.fi/" target="_blank" rel="noopener">sundae labs</a> × <a href="https://www.shielded.io/" target="_blank" rel="noopener">shielded technologies</a></p>
                         <p class="desc">
                             compiler qa, lsp tooling, and multi-network end-to-end
                             infrastructure for compact, midnight's
@@ -704,7 +650,7 @@
             <section class="section" id="work" aria-labelledby="work-title">
                 <h2 class="section-title" id="work-title">
                     <span class="hash">#</span>work
-                    <span class="aside"><a href="/resume.pdf" download="matthew-hounslow-resume.pdf">download resume.pdf ↓</a></span>
+                    <span class="aside"><a href="/resume.pdf" target="_blank" rel="noopener">resume.pdf ↗</a></span>
                 </h2>
                 <ol class="timeline">
                     <li class="now">
@@ -755,7 +701,7 @@
         <footer class="site-footer">
             <div class="wrap">
                 <span><span class="prompt">$</span> echo "© <span data-year>2026</span> matt hounslow"</span>
-                <span><a href="/resume.pdf" download="matthew-hounslow-resume.pdf">resume</a> · <a href="/art.html">art</a> · <a href="https://github.com/mhounslow/lowhung.github.io" target="_blank" rel="noopener">source</a></span>
+                <span><a href="/resume.pdf" target="_blank" rel="noopener">resume</a> · <a href="/art.html">art</a> · <a href="https://github.com/mhounslow/lowhung.github.io" target="_blank" rel="noopener">source</a></span>
             </div>
         </footer>
 
