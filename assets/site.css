@@ -1,5 +1,5 @@
 /* matthounslow.dev — shared styles
-   palette: catppuccin latte (light) / mocha (dark) */
+   palette: warm ivory / charcoal neutrals, blue primary, clay secondary */
 
 @font-face {
     font-family: "iA Writer Quattro";
@@ -25,25 +25,20 @@
 
 :root {
     color-scheme: light;
-    --bg: #eff1f5;
-    --bg-alt: #e6e9ef;
-    --bg-sunk: #dce0e8;
-    --line: #ccd0da;
-    --line-strong: #acb0be;
-    --muted: #8c8fa1;
-    --text-3: #6c6f85;
-    --text-2: #5c5f77;
-    --text: #4c4f69;
-    --accent: #8839ef;
-    --pink: #ea76cb;
-    --sky: #04a5e5;
-    --green: #40a02b;
-    --blue: #1e66f5;
-    --peach: #fe640b;
-    --yellow: #df8e1d;
-    --on-accent: #eff1f5;
-    --header-bg: rgb(239 241 245 / 0.82);
-    --scanline: rgb(136 57 239 / 0.022);
+    --bg: #faf9f5;
+    --bg-alt: #f2f0e8;
+    --bg-sunk: #e9e6dc;
+    --line: #e4e0d5;
+    --line-strong: #c9c4b6;
+    --muted: #76726a;
+    --text-3: #67645b;
+    --text-2: #45433d;
+    --text: #1d1c1a;
+    --accent: #2e62d9;
+    --clay: #c6613f;
+    --sky: #2a8fc7;
+    --on-accent: #ffffff;
+    --header-bg: rgb(250 249 245 / 0.86);
 
     --font-sans: "iA Writer Quattro", -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --font-mono: "iA Writer Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -54,48 +49,38 @@
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
         color-scheme: dark;
-        --bg: #1e1e2e;
-        --bg-alt: #181825;
-        --bg-sunk: #11111b;
-        --line: #313244;
-        --line-strong: #585b70;
-        --muted: #7f849c;
-        --text-3: #a6adc8;
-        --text-2: #bac2de;
-        --text: #cdd6f4;
-        --accent: #cba6f7;
-        --pink: #f5c2e7;
-        --sky: #89dceb;
-        --green: #a6e3a1;
-        --blue: #89b4fa;
-        --peach: #fab387;
-        --yellow: #f9e2af;
-        --on-accent: #11111b;
-        --header-bg: rgb(30 30 46 / 0.82);
-        --scanline: rgb(0 0 0 / 0.07);
+        --bg: #21201e;
+        --bg-alt: #2a2926;
+        --bg-sunk: #181816;
+        --line: #35332f;
+        --line-strong: #56534c;
+        --muted: #8f8b82;
+        --text-3: #aeaaa0;
+        --text-2: #d0ccc2;
+        --text: #f2f0e8;
+        --accent: #7da6ff;
+        --clay: #e38c6c;
+        --sky: #6cc0ec;
+        --on-accent: #141413;
+        --header-bg: rgb(33 32 30 / 0.86);
     }
 }
 :root[data-theme="dark"] {
     color-scheme: dark;
-    --bg: #1e1e2e;
-    --bg-alt: #181825;
-    --bg-sunk: #11111b;
-    --line: #313244;
-    --line-strong: #585b70;
-    --muted: #7f849c;
-    --text-3: #a6adc8;
-    --text-2: #bac2de;
-    --text: #cdd6f4;
-    --accent: #cba6f7;
-    --pink: #f5c2e7;
-    --sky: #89dceb;
-    --green: #a6e3a1;
-    --blue: #89b4fa;
-    --peach: #fab387;
-    --yellow: #f9e2af;
-    --on-accent: #11111b;
-    --header-bg: rgb(30 30 46 / 0.82);
-    --scanline: rgb(0 0 0 / 0.07);
+    --bg: #21201e;
+    --bg-alt: #2a2926;
+    --bg-sunk: #181816;
+    --line: #35332f;
+    --line-strong: #56534c;
+    --muted: #8f8b82;
+    --text-3: #aeaaa0;
+    --text-2: #d0ccc2;
+    --text: #f2f0e8;
+    --accent: #7da6ff;
+    --clay: #e38c6c;
+    --sky: #6cc0ec;
+    --on-accent: #141413;
+    --header-bg: rgb(33 32 30 / 0.86);
 }
 
 *,
@@ -121,15 +106,6 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-/* faint crt scanlines — static, no animation */
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 100;
-    background: repeating-linear-gradient(to bottom, transparent 0 2px, var(--scanline) 2px 4px);
-}
 
 ::selection {
     background: var(--accent);
@@ -513,7 +489,6 @@ main {
 }
 
 @media print {
-    body::after,
     .site-header,
     .site-footer,
     .skip-link,
