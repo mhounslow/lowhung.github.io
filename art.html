@@ -33,7 +33,7 @@
         <link rel="preload" href="/assets/fonts/quattro-400.woff2" as="font" type="font/woff2" crossorigin />
         <link rel="preload" href="/assets/fonts/quattro-700.woff2" as="font" type="font/woff2" crossorigin />
         <link rel="preload" href="/assets/fonts/mono-400.woff2" as="font" type="font/woff2" crossorigin />
-        <link rel="stylesheet" href="/assets/site.css" />
+        <link rel="stylesheet" href="/assets/site.css?v=5" />
 
         <style>
             .page-intro {
@@ -95,16 +95,43 @@
                 border-color: var(--accent);
                 background: var(--bg-alt);
             }
-            .art-item img {
-                width: 100%;
-                height: auto;
+            /* tiles float in one after another; each shows a soft pulse until its svg is ready */
+            .gallery li {
+                opacity: 0;
+                transform: translateY(10px) scale(0.98);
+                animation: tile-in 520ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+                animation-delay: calc(var(--i, 0) * 45ms + 80ms);
+            }
+            @keyframes tile-in {
+                to {
+                    opacity: 1;
+                    transform: none;
+                }
+            }
+            .art-item .thumb {
+                display: block;
                 aspect-ratio: 1;
                 background: var(--bg-alt);
-                opacity: 0;
-                transition: opacity 0.35s ease;
+                animation: thumb-pulse 1.4s ease-in-out infinite;
             }
-            .art-item img.loaded {
+            .art-item .thumb.loaded {
+                animation: none;
+            }
+            @keyframes thumb-pulse {
+                50% {
+                    background: var(--bg-sunk);
+                }
+            }
+            .art-item img {
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                transform: scale(0.97);
+                transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+            }
+            .art-item .thumb.loaded img {
                 opacity: 1;
+                transform: none;
             }
             .art-label {
                 display: block;
@@ -297,8 +324,8 @@
             <button class="lightbox-next" type="button" data-action="next" aria-label="next">→</button>
         </div>
 
-        <script src="/assets/engrams.js"></script>
-        <script src="/assets/site.js"></script>
+        <script src="/assets/engrams.js?v=5"></script>
+        <script src="/assets/site.js?v=5"></script>
         <script>
             (function () {
                 var images = window.ENGRAMS || [];
@@ -332,15 +359,15 @@
                         .map(function (file, i) {
                             var seed = seedOf(file);
                             return (
-                                '<li><button class="art-item" type="button" data-index="' + (start + i) + '" aria-label="view engram ' + seed + '">' +
-                                '<img src="/art/' + file + '" alt="" loading="lazy" width="200" height="200" />' +
+                                '<li style="--i:' + i + '"><button class="art-item" type="button" data-index="' + (start + i) + '" aria-label="view engram ' + seed + '">' +
+                                '<span class="thumb"><img src="/art/' + file + '" alt="" width="200" height="200" /></span>' +
                                 '<span class="art-label">seed: ' + seed + "</span></button></li>"
                             );
                         })
                         .join("");
                     gallery.querySelectorAll("img").forEach(function (img) {
                         function done() {
-                            img.classList.add("loaded");
+                            img.parentNode.classList.add("loaded");
                         }
                         if (img.complete) done();
                         else {
