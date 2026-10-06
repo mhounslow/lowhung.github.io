@@ -8,6 +8,9 @@ Personal site — plain HTML/CSS, no build step. Deployed to GitHub Pages by
 - `resume.pdf` — linked from the nav and hero; replace this file to update the resume
 - `assets/site.css` / `assets/site.js` — shared styles (light/dark tokens) and theme toggle
 
+After changing anything in `assets/`, bump the `?v=` number on the asset links in the
+HTML files — Cloudflare tells browsers to cache CSS/JS for 4 hours.
+
 Preview locally:
 
 ```sh
