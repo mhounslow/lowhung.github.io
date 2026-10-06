@@ -30,7 +30,9 @@
         <meta name="twitter:creator" content="@loregrammer" />
         <meta name="twitter:image" content="https://matthounslow.dev/og-image.png" />
 
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+        <link rel="preload" href="/assets/fonts/quattro-400.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href="/assets/fonts/quattro-700.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href="/assets/fonts/mono-400.woff2" as="font" type="font/woff2" crossorigin />
         <link rel="stylesheet" href="/assets/site.css" />
 
         <style>
@@ -98,6 +100,11 @@
                 height: auto;
                 aspect-ratio: 1;
                 background: var(--bg-alt);
+                opacity: 0;
+                transition: opacity 0.35s ease;
+            }
+            .art-item img.loaded {
+                opacity: 1;
             }
             .art-label {
                 display: block;
@@ -331,6 +338,16 @@
                             );
                         })
                         .join("");
+                    gallery.querySelectorAll("img").forEach(function (img) {
+                        function done() {
+                            img.classList.add("loaded");
+                        }
+                        if (img.complete) done();
+                        else {
+                            img.addEventListener("load", done);
+                            img.addEventListener("error", done);
+                        }
+                    });
                 }
 
                 function pageButton(page, label, opts) {

@@ -40,7 +40,9 @@
         />
         <meta name="twitter:image" content="https://matthounslow.dev/og-image.png" />
 
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+        <link rel="preload" href="/assets/fonts/quattro-400.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href="/assets/fonts/quattro-700.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href="/assets/fonts/mono-400.woff2" as="font" type="font/woff2" crossorigin />
         <link rel="stylesheet" href="/assets/site.css" />
 
         <script type="application/ld+json">
@@ -727,9 +729,14 @@
                 if (img.complete) markLoaded();
                 else img.addEventListener("load", markLoaded);
 
-                // type out the greeting (text is already in the html for no-js / crawlers)
+                // type out the greeting once per visit (text is already in the html for no-js / crawlers)
                 var el = document.getElementById("hero-text");
-                if (reduce || !el) return;
+                var typed = false;
+                try {
+                    typed = sessionStorage.getItem("typed") === "1";
+                    sessionStorage.setItem("typed", "1");
+                } catch (e) {}
+                if (reduce || typed || !el) return;
                 var text = el.textContent;
                 el.textContent = "";
                 var i = 0;
