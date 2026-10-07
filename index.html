@@ -9,7 +9,7 @@
                 if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
             } catch (e) {}
         </script>
-        <meta name="theme-color" content="#faf9f5" />
+        <meta name="theme-color" content="#f9f5d7" />
 
         <title>matt hounslow — software developer</title>
         <meta
@@ -156,10 +156,14 @@
                 height: 100%;
                 object-fit: cover;
                 opacity: 0;
-                transition: opacity 0.4s ease, transform 0.6s ease;
+                filter: saturate(0.45) sepia(0.25);
+                transition: opacity 0.4s ease, transform 0.6s ease, filter 0.4s ease;
             }
             .hero-art img.loaded {
                 opacity: 1;
+            }
+            .hero-art:hover img {
+                filter: none;
             }
             .hero-art:hover .frame {
                 border-color: var(--accent);
@@ -233,7 +237,11 @@
                 top: -1px;
                 bottom: -1px;
                 width: 3px;
-                background: var(--card-accent, var(--accent));
+                background: var(--line-strong);
+                transition: background-color 0.15s;
+            }
+            .card:hover::before {
+                background: var(--accent);
             }
             .card:hover {
                 border-color: var(--line-strong);
@@ -271,7 +279,7 @@
             }
             .card:hover h3 .arrow {
                 transform: translate(2px, -2px);
-                color: var(--card-accent, var(--accent));
+                color: var(--accent);
             }
             .card .meta {
                 font-family: var(--font-mono);
@@ -284,7 +292,7 @@
                 width: 0.5rem;
                 height: 0.5rem;
                 margin-right: 0.4rem;
-                background: var(--card-accent, var(--accent));
+                background: var(--line-strong);
                 vertical-align: 0.05rem;
             }
             .card p.desc {
@@ -303,17 +311,8 @@
                 border-bottom: 1px dotted var(--line-strong);
             }
             .card .meta a:hover {
-                color: var(--card-accent, var(--accent));
+                color: var(--accent);
                 border-bottom-color: currentColor;
-            }
-            .accent-clay {
-                --card-accent: var(--clay);
-            }
-            .accent-blue {
-                --card-accent: var(--accent);
-            }
-            .accent-sky {
-                --card-accent: var(--sky);
             }
 
             /* ---------- open source grid ---------- */
@@ -324,7 +323,6 @@
             }
             .oss .card {
                 padding: 0.9rem 1rem 0.95rem;
-                --card-accent: var(--line-strong);
             }
             .oss .card::before {
                 display: none;
@@ -342,9 +340,6 @@
                 font-family: var(--font-mono);
                 font-size: 0.6875rem;
                 color: var(--muted);
-            }
-            .oss .card.featured {
-                --card-accent: var(--accent);
             }
             .oss .card.featured::before {
                 display: block;
@@ -538,7 +533,7 @@
             <section class="section" id="projects" aria-labelledby="projects-title">
                 <h2 class="section-title" id="projects-title"><span class="hash">#</span>projects</h2>
                 <div class="cards">
-                    <article class="card accent-clay">
+                    <article class="card">
                         <div class="card-head">
                             <h3><a href="https://github.com/input-output-hk/acropolis" target="_blank" rel="noopener">acropolis node<span class="arrow" aria-hidden="true">↗</span></a></h3>
                             <div class="tags"><span class="tag">rust</span><span class="tag">cardano</span><span class="tag">grpc</span></div>
@@ -554,7 +549,7 @@
                         </p>
                     </article>
 
-                    <article class="card accent-blue">
+                    <article class="card">
                         <div class="card-head">
                             <h3><a href="https://github.com/LFDT-Minokawa/compact" target="_blank" rel="noopener">compact language<span class="arrow" aria-hidden="true">↗</span></a></h3>
                             <div class="tags"><span class="tag">typescript</span><span class="tag">rust</span><span class="tag">zero knowledge</span></div>
@@ -569,7 +564,7 @@
                         </p>
                     </article>
 
-                    <article class="card accent-sky">
+                    <article class="card">
                         <div class="card-head">
                             <h3><a href="https://frigid.ai/" target="_blank" rel="noopener">frigidai<span class="arrow" aria-hidden="true">↗</span></a></h3>
                             <div class="tags"><span class="tag">python</span><span class="tag">cardano</span><span class="tag">analytics</span></div>

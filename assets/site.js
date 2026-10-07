@@ -10,7 +10,7 @@
 
     function syncThemeColor() {
         var meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.setAttribute("content", currentTheme() === "dark" ? "#21201e" : "#faf9f5");
+        if (meta) meta.setAttribute("content", currentTheme() === "dark" ? "#1d2021" : "#f9f5d7");
     }
 
     function syncToggleLabel(button) {
