@@ -341,6 +341,9 @@
                 font-size: 0.6875rem;
                 color: var(--muted);
             }
+            .oss .card:last-child:nth-child(odd) {
+                grid-column: 1 / -1;
+            }
             .oss .card.featured::before {
                 display: block;
             }
@@ -535,8 +538,21 @@
                 <div class="cards">
                     <article class="card">
                         <div class="card-head">
+                            <h3><a href="https://github.com/LFDT-Minokawa/compact" target="_blank" rel="noopener">compact language<span class="arrow" aria-hidden="true">↗</span></a></h3>
+                        </div>
+                        <p class="meta"><span class="dot" aria-hidden="true"></span><a href="https://sundae.fi/" target="_blank" rel="noopener">sundae labs</a> × <a href="https://www.shielded.io/" target="_blank" rel="noopener">shielded technologies</a></p>
+                        <p class="desc">
+                            compiler qa, lsp tooling, and multi-network end-to-end
+                            infrastructure for compact, midnight's
+                            privacy-preserving smart-contract language — teams can
+                            pin component versions or feature branches and catch
+                            regressions before release.
+                        </p>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-head">
                             <h3><a href="https://github.com/input-output-hk/acropolis" target="_blank" rel="noopener">acropolis node<span class="arrow" aria-hidden="true">↗</span></a></h3>
-                            <div class="tags"><span class="tag">rust</span><span class="tag">cardano</span><span class="tag">grpc</span></div>
                         </div>
                         <p class="meta"><span class="dot" aria-hidden="true"></span><a href="https://sundae.fi/" target="_blank" rel="noopener">sundae labs</a> × <a href="https://www.iog.io/" target="_blank" rel="noopener">input output (iohk)</a></p>
                         <p class="desc">
@@ -551,23 +567,7 @@
 
                     <article class="card">
                         <div class="card-head">
-                            <h3><a href="https://github.com/LFDT-Minokawa/compact" target="_blank" rel="noopener">compact language<span class="arrow" aria-hidden="true">↗</span></a></h3>
-                            <div class="tags"><span class="tag">typescript</span><span class="tag">rust</span><span class="tag">zero knowledge</span></div>
-                        </div>
-                        <p class="meta"><span class="dot" aria-hidden="true"></span><a href="https://sundae.fi/" target="_blank" rel="noopener">sundae labs</a> × <a href="https://www.shielded.io/" target="_blank" rel="noopener">shielded technologies</a></p>
-                        <p class="desc">
-                            compiler qa, lsp tooling, and multi-network end-to-end
-                            infrastructure for compact, midnight's
-                            privacy-preserving smart-contract language — teams can
-                            pin component versions or feature branches and catch
-                            regressions before release.
-                        </p>
-                    </article>
-
-                    <article class="card">
-                        <div class="card-head">
                             <h3><a href="https://frigid.ai/" target="_blank" rel="noopener">frigidai<span class="arrow" aria-hidden="true">↗</span></a></h3>
-                            <div class="tags"><span class="tag">python</span><span class="tag">cardano</span><span class="tag">analytics</span></div>
                         </div>
                         <p class="meta"><span class="dot" aria-hidden="true"></span>defi analytics</p>
                         <p class="desc">
@@ -585,6 +585,13 @@
                     <span class="aside"><a href="https://github.com/mhounslow" target="_blank" rel="noopener">github.com/mhounslow</a></span>
                 </h2>
                 <div class="oss">
+                    <article class="card featured">
+                        <div class="card-head">
+                            <h3><a href="https://github.com/LFDT-Minokawa/compact" target="_blank" rel="noopener">LFDT-Minokawa/compact<span class="arrow" aria-hidden="true">↗</span></a></h3>
+                            <span class="tag">contributor</span>
+                        </div>
+                        <p class="desc">compact, midnight's privacy-preserving smart-contract language — compiler qa, lsp tooling, and end-to-end test infrastructure</p>
+                    </article>
                     <article class="card featured">
                         <div class="card-head">
                             <h3><a href="https://github.com/input-output-hk/acropolis" target="_blank" rel="noopener">input-output-hk/acropolis<span class="arrow" aria-hidden="true">↗</span></a></h3>
@@ -653,7 +660,7 @@
                     <li class="now">
                         <time>2025 — present</time>
                         <span class="role">software developer <span class="at">@</span> <a href="https://sundae.fi/" target="_blank" rel="noopener">sundae labs</a></span>
-                        <p class="note">client work for input output (acropolis node) and shielded technologies (compact language)</p>
+                        <p class="note">client work for shielded technologies (compact language) and input output (acropolis node)</p>
                     </li>
                     <li>
                         <time>2024 — 2025</time>
